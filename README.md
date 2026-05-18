@@ -1,128 +1,325 @@
-Phase 1: 📋 Planning
-Problem it solves:
-People struggle to track where their money goes. This app gives users a simple way to log and visualize their income and expenses.
-Who are the users:
-A single user (you, for now) — so no admin roles or complex permissions needed.
-Features IN scope (your MVP):
+````md
+# Finance Tracker
 
-Sign up / Log in
-Add a transaction (amount, category, date, note)
-View all transactions in a list
-Delete a transaction
-Dashboard showing total income, total expenses, balance
+A full-stack web application for tracking personal income and expenses with authentication, transaction management, and financial summaries.
 
-Features OUT of scope (for now):
+---
 
-Multiple currencies
-Bank integrations
-Shared accounts
-Mobile app
+# 📌 Project Overview
 
-Timeline: 5–6 weeks solo
+## Problem It Solves
+People often struggle to track where their money goes. Finance Tracker provides a simple and clean way to log, manage, and visualize income and expenses.
 
-Phase 2: 🎨 Design
-Screen Map (what pages exist):
-/login         → Login page
-/register      → Sign up page
-/dashboard     → Summary cards + chart
-/transactions  → Full list of transactions
-Database Schema (what data you'll store):
-sql-- Users table
-users
-  id          SERIAL PRIMARY KEY
-  email       VARCHAR UNIQUE NOT NULL
-  password    VARCHAR NOT NULL
-  created_at  TIMESTAMP DEFAULT NOW()
+---
 
--- Transactions table
-transactions
-  id          SERIAL PRIMARY KEY
-  user_id     INT REFERENCES users(id)
-  type        VARCHAR  -- 'income' or 'expense'
-  amount      DECIMAL
-  category    VARCHAR  -- e.g. 'Food', 'Rent', 'Salary'
-  note        VARCHAR
-  date        DATE
-  created_at  TIMESTAMP DEFAULT NOW()
-API Endpoints (what your backend will expose):
-MethodEndpointWhat it doesPOST/auth/registerCreate a new userPOST/auth/loginLog in, return JWT tokenGET/transactionsGet all transactions for logged-in userPOST/transactionsAdd a new transactionDELETE/transactions/:idDelete a transaction
+# 👥 Target Users
 
+Currently designed for:
+- Individual users
+- Personal finance management
+- Learning full-stack development concepts
 
-Phase 3: 💻 Development
-Build in this order — each step gives you something working:
-Sprint 1 (Week 1–2) — Backend
+No admin roles or advanced permission systems are included in the MVP.
 
- Initialize Node + Express project
- Connect to PostgreSQL, create tables
- Build auth routes (register, login, JWT)
- Build transaction routes (GET, POST, DELETE)
- Test all routes with Postman or Thunder Client
+---
 
-Sprint 2 (Week 3) — Frontend Core
+# ✨ Features
 
- Set up React app with Vite
- Build Login and Register pages
- Connect auth to your API, store JWT in memory
- Build Transactions page — fetch and display list
+## ✅ Authentication
+- User registration
+- User login
+- JWT-based authentication
 
-Sprint 3 (Week 4) — Features + Dashboard
+## ✅ Transactions
+- Add transactions
+- View all transactions
+- Delete transactions
+- Categorize income and expenses
 
- Add Transaction form (amount, category, date, note)
- Delete transaction button
- Dashboard page with totals (income, expenses, balance)
- Add a bar or pie chart with Recharts
+## ✅ Dashboard
+- Total income summary
+- Total expense summary
+- Balance calculation
+- Financial charts and visualizations
 
-Sprint 4 (Week 5) — Polish + Deploy
+---
 
- Form validation and error messages
- Loading states (skeleton loaders or spinners)
- Deploy frontend to Vercel
- Deploy backend + DB to Railway
- Write README
+# 🚫 Out of Scope (MVP)
 
+The following features are intentionally excluded from the first version:
 
-Phase 4: 🧪 Testing
-Manual testing checklist:
+- Multiple currencies
+- Bank integrations
+- Shared accounts
+- Mobile application
 
- Can you register a new user?
- Does login fail with wrong password?
- Can you add a transaction and see it appear?
- Does the dashboard total update after adding?
- Can you delete a transaction?
- Does the app block unauthenticated users from /dashboard?
- What happens if you submit an empty form?
+---
 
-One unit test to add (impresses recruiters):
-Test your transaction calculation logic — that income minus expenses equals the correct balance. Use Jest for this.
+# 🛠 Tech Stack
 
-Phase 5: 🚀 Deployment
-Your deployment setup:
-Your Laptop (Dev)
-      ↓  push to GitHub
-GitHub Actions (optional: auto-run tests)
-      ↓
-Vercel  → hosts your React frontend
-Railway → hosts your Express API + PostgreSQL DB
-Every time you push to GitHub, Vercel auto-deploys. That's a real CI/CD pipeline — and you can say so in interviews.
+## Frontend
+- React
+- Vite
+- Recharts
 
-Phase 6: 🔧 Maintenance / README
-Your README should include:
-markdown# Finance Tracker
-A full-stack web app to track personal income and expenses.
+## Backend
+- Node.js
+- Express.js
 
-## Features
-- JWT Authentication
-- Add / delete transactions
-- Dashboard with spending summary and chart
+## Database
+- PostgreSQL
 
-## Tech Stack
-React, Node.js, Express, PostgreSQL
+## Authentication
+- JWT (JSON Web Tokens)
+- bcrypt
 
-## Live Demo
-[link here]
+## Deployment
+- Vercel
+- Railway
 
-## Screenshots
-[add 2-3 screenshots]
+---
 
-## Run Locally
-[setup instructions]
+# 📂 Project Structure
+
+```text
+finance-tracker/
+├── client/
+│   └── src/
+│       ├── pages/
+│       ├── components/
+│       └── api/
+│
+├── server/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── routes/
+│   └── db/
+│
+└── README.md
+````
+
+---
+
+# 🗄 Database Schema
+
+## Users Table
+
+```sql
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+## Transactions Table
+
+```sql
+CREATE TABLE transactions (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  type VARCHAR(10),
+  amount DECIMAL(10,2),
+  category VARCHAR(100),
+  note TEXT,
+  date DATE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+---
+
+# 🔌 API Endpoints
+
+| Method | Endpoint            | Description                 |
+| ------ | ------------------- | --------------------------- |
+| POST   | `/auth/register`    | Register a new user         |
+| POST   | `/auth/login`       | Login and receive JWT token |
+| GET    | `/transactions`     | Get all user transactions   |
+| POST   | `/transactions`     | Add a transaction           |
+| DELETE | `/transactions/:id` | Delete a transaction        |
+
+---
+
+# 🧱 Development Roadmap
+
+## Sprint 1 — Backend (Week 1–2) Done with Sprint 1
+
+* Initialize Node + Express
+* Connect PostgreSQL
+* Create database tables
+* Build authentication routes
+* Build transaction routes
+* Test APIs using Postman 
+  
+
+---
+
+## Sprint 2 — Frontend Core (Week 3)
+
+* Set up React app with Vite
+* Create Login and Register pages
+* Connect frontend to backend APIs
+* Store JWT token
+* Build Transactions page
+
+---
+
+## Sprint 3 — Dashboard & Features (Week 4)
+
+* Add transaction form
+* Delete transaction feature
+* Dashboard summaries
+* Add charts using Recharts
+
+---
+
+## Sprint 4 — Polish & Deployment (Week 5)
+
+* Form validation
+* Error handling
+* Loading states
+* Deploy frontend to Vercel
+* Deploy backend and database to Railway
+* Finalize README
+
+---
+
+# 🧪 Testing Checklist
+
+## Manual Testing
+
+* [ ] Register a new user
+* [ ] Login with valid credentials
+* [ ] Reject invalid passwords
+* [ ] Add a transaction
+* [ ] View transactions
+* [ ] Delete a transaction
+* [ ] Protect private routes
+* [ ] Validate empty form submissions
+
+---
+
+# 🧪 Unit Testing
+
+## Suggested Test
+
+Use Jest to test financial calculations:
+
+```js
+expect(totalIncome - totalExpenses).toBe(balance);
+```
+
+---
+
+# 🚀 Deployment Architecture
+
+```text
+Local Development
+        ↓
+      GitHub
+        ↓
+ ┌───────────────┐
+ │    Vercel     │ → React Frontend
+ └───────────────┘
+
+ ┌───────────────┐
+ │    Railway    │ → Express API + PostgreSQL
+ └───────────────┘
+```
+
+---
+
+# 🔄 CI/CD
+
+Every push to GitHub automatically redeploys the frontend through Vercel.
+
+Optional:
+
+* Add GitHub Actions for automated testing
+
+---
+
+# 📸 Screenshots
+
+Add screenshots here after UI completion.
+
+Example:
+
+* Login Page
+* Dashboard
+* Transactions Page
+
+---
+
+# ▶️ Run Locally
+
+## 1. Clone Repository
+
+```bash
+git clone <your-repository-url>
+```
+
+---
+
+## 2. Backend Setup
+
+```bash
+cd server
+npm install
+nodemon server.js
+```
+
+---
+
+## 3. Frontend Setup
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+---
+
+# 🔐 Environment Variables
+
+Create a `.env` file inside `server/`:
+
+```env
+PORT=5000
+DB_USER=postgres
+DB_HOST=localhost
+DB_NAME=finance_app
+DB_PASSWORD=yourpassword
+DB_PORT=5433
+JWT_SECRET=your_secret_key
+```
+
+---
+
+# 📈 Future Improvements
+
+* Edit transactions
+* Monthly analytics
+* Export reports
+* Dark mode
+* Mobile responsiveness
+* Recurring transactions
+
+---
+
+# 👨‍💻 Author
+
+Built as a full-stack portfolio project for learning and showcasing:
+
+* Backend development
+* REST APIs
+* Authentication
+* Database integration
+* Deployment workflows
+
+```
+```
