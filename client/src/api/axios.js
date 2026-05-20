@@ -1,14 +1,19 @@
 import axios from "axios";
+import { getToken } from "../auth/authStore";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000", // your Express server
+  baseURL: "http://localhost:5000",
 });
 
-// Automatically attach JWT token to every request
-API.interceptors.request.use((req) => {
-  const token = localStorage.getItem("token"); // temporary, we'll improve this
-  if (token) req.headers.Authorization = `Bearer ${token}`;
-  return req;
+// attach token automatically
+API.interceptors.request.use((config) => {
+  const token = getToken();
+
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
 });
 
 export default API;
