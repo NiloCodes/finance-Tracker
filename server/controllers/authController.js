@@ -31,6 +31,6 @@ exports.login = async (req, res) => {
     expiresIn: "1d",
   });
 
-  // ✅ Fix
+  // Return token and user info (excluding password)
   res.json({ token, user: { id: user.rows[0].id, email: user.rows[0].email } });
 };
