@@ -29,7 +29,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/transactions"
           element={
@@ -39,6 +38,7 @@ export default function App() {
           }
         />
 
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </BrowserRouter>

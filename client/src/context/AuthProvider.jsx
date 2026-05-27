@@ -3,7 +3,10 @@ import AuthContext from "./AuthContext";
 import { setToken as storeToken, clearToken, getToken } from "../auth/authStore";
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(() => getToken());
+  const [token, setToken] = useState(() => {
+  const t = getToken();
+  return t && t !== "undefined" && t !== "null" ? t : null;
+});  
   const [user, setUser] = useState(null);
 
   const login = (userData, jwt) => {
