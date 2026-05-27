@@ -17,24 +17,16 @@ export default function Navbar() {
       <div style={styles.links}>
         {token && (
           <>
-            <Link to="/transactions" style={styles.link}>
-              Transactions
-            </Link>
-
-            <button onClick={handleLogout} style={styles.button}>
-              Logout
-            </button>
+            <Link to="/dashboard" style={styles.link}>Dashboard</Link>
+            <Link to="/transactions" style={styles.link}>Transactions</Link>
+            <button onClick={handleLogout} style={styles.button}>Logout</button>
           </>
         )}
 
         {!token && (
           <>
-            <Link to="/login" style={styles.link}>
-              Login
-            </Link>
-            <Link to="/register" style={styles.link}>
-              Register
-            </Link>
+            <Link to="/login" style={styles.link}>Login</Link>
+            <Link to="/register" style={styles.link}>Register</Link>
           </>
         )}
       </div>
@@ -51,20 +43,8 @@ const styles = {
     background: "#111",
     color: "white",
   },
-  logo: {
-    margin: 0,
-  },
-  links: {
-    display: "flex",
-    gap: "12px",
-    alignItems: "center",
-  },
-  link: {
-    color: "white",
-    textDecoration: "none",
-  },
-  button: {
-    padding: "6px 10px",
-    cursor: "pointer",
-  },
+  logo: { margin: 0 },
+  links: { display: "flex", gap: "12px", alignItems: "center" },
+  link: { color: "white", textDecoration: "none" },
+  button: { padding: "6px 10px", cursor: "pointer" },
 };
