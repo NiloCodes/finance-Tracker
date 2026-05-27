@@ -1,10 +1,6 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import AuthContext from "./AuthContext";
-import {
-  getToken,
-  setToken as storeToken,
-  clearToken,
-} from "../auth/authStore";
+import { getToken, setToken as storeToken, clearToken } from "./AuthStore";
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => getToken());
   const [user, setUser] = useState(null);
@@ -26,8 +22,4 @@ export function AuthProvider({ children }) {
       {children}
     </AuthContext.Provider>
   );
-}
-// eslint-disable-next-line react-refresh/only-export-components
-export function useAuth() {
-  return useContext(AuthContext);
 }
