@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import API from "../api/axios";
 import { useAuth } from "../context/AuthProvider";
 
@@ -44,7 +44,8 @@ export default function Login() {
         />
         <button type="submit">Log In</button>
       </form>
-      <p>No account? <a href="/register">Register</a></p>
+      <p>No account? <Link to="/register">Register</Link></p>
+
     </div>
   );
 }
