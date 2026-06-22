@@ -1,12 +1,16 @@
 const pool = require("../config/db");
 
 exports.getTransactions = async (req, res) => {
-  const result = await pool.query(
-    "SELECT * FROM transactions WHERE user_id=$1",
-    [req.userId],
-  );
-
-  res.json(result.rows);
+  try {
+    const result = await pool.query(
+      "SELECT * FROM transactions WHERE user_id=$1 ORDER BY date DESC",
+      [req.userId],
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 exports.addTransaction = async (req, res) => {
